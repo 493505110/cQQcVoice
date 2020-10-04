@@ -11,10 +11,3 @@ ARM
 #### 安装教程
 自己编译或[下载](https://gitee.com/zhou2008/cQQcVoice/releases)编译好的版本    
 [使用教程](https://gitee.com/zhou2008/cQQcVoice/raw/master/1.gif)
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
