@@ -5,11 +5,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.telephony.mbms.FileInfo
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -18,13 +17,16 @@ import java.util.*
 
 @Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity() {
-    private var permissions = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private var permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private val tencent = "/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/MobileQQ/"
+    private var alldone = false
+    private var slkpath = ""
+    private val cfgf=File("/storage/emulated/0/cqqcvcfg")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val cfgf=File("/storage/emulated/0/cqqccfg")
         if (cfgf.exists() && cfgf.isFile){
             txt_QQnumber.setText(cfgf.readText())
         }
@@ -39,9 +41,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    val tencent = "/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/MobileQQ/"
-    var alldone = false
-    var slkpath = ""
+
     fun onClick(v: View){
         when(v.id){
             R.id.button1 -> deleteSlk()
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             val f = File(debug_1.text.toString())
             f.copyTo(File(slkpath), true)
             Toast.makeText(this, "操作执行成功", Toast.LENGTH_SHORT).show()
-            File("/storage/emulated/0/cqqccfg").writeText(txt_QQnumber.text.toString())
+            cfgf.writeText(txt_QQnumber.text.toString())
             alldone=false
             debug_1.text = ""
         }else{
@@ -81,10 +81,10 @@ class MainActivity : AppCompatActivity() {
         }else{
             Toast.makeText(this,"目录是空的",Toast.LENGTH_SHORT).show()
         }
-        val filelist = File(ptt).listFiles()
-        if (filelist != null) {
-            if (filelist.isNotEmpty()) {
-                for (file in filelist){
+        val fileList = File(ptt).listFiles()
+        if (fileList != null) {
+            if (fileList.isNotEmpty()) {
+                for (file in fileList){
                     if (file.isFile && file.name.endsWith(".slk")){
                         slkpath=file.path
                     }
@@ -131,25 +131,25 @@ class MainActivity : AppCompatActivity() {
     }
     @SuppressLint("SimpleDateFormat")
     private fun getDate(): String{
-        if (Build.VERSION.SDK_INT >= 24){
-            return SimpleDateFormat("yyyyMM").format(Date())
+        return if (Build.VERSION.SDK_INT >= 24){
+            SimpleDateFormat("yyyyMM").format(Date())
         }else{
             val tms = Calendar.getInstance()
-            var month = Integer.toString(tms.get(Calendar.MONTH)+1)
-            val year = Integer.toString(tms.get(Calendar.YEAR))
+            var month = (tms.get(Calendar.MONTH) + 1).toString()
+            val year = tms.get(Calendar.YEAR).toString()
             if (Integer.parseInt(month) <= 9)
-                month = "0" + month
-            return year+month
+                month = "0$month"
+            year+month
         }
     }
     @SuppressLint("SimpleDateFormat")
     private fun getDay(): String{
-        if (Build.VERSION.SDK_INT >= 24){
-            return SimpleDateFormat("d").format(Date())
+        return if (Build.VERSION.SDK_INT >= 24){
+            SimpleDateFormat("d").format(Date())
         }else{
             val tms = Calendar.getInstance()
-            val day = Integer.toString(tms.get(Calendar.DAY_OF_MONTH))
-            return day
+            val day = tms.get(Calendar.DAY_OF_MONTH).toString()
+            day
         }
     }
     private fun reqPermissions(){
