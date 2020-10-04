@@ -7,11 +7,9 @@ cQQcVoice(CustomQQchatVoice)是一个可以自定义发送的QQ聊天语音的�
 #### 软件架构
 ARM
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 安装教程
+clone本项目然后再项目根目录打开cmd,运行:    
+`gradlew.bat app:assembleRelease`或`gradlew.bat app:assembleDebug`
 
 #### 参与贡献
 
