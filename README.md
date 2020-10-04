@@ -12,7 +12,7 @@ ARM
 自己编译或[下载](https://gitee.com/zhou2008/cQQcVoice/releases)编译好的版本
 
 #### 使用教程
-![img](https://gitee.com/zhou2008/cQQcVoice/raw/master/1.gif)
+[Touch me](https://gitee.com/zhou2008/cQQcVoice/raw/master/1.gif)
 
 #### 参与贡献
 
