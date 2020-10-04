@@ -1,7 +1,7 @@
 # cQQcVoice
 
 #### 介绍
-cQQcVoice(CustomQQchatVoice)是一个可以自定义发送的QQ聊天语音的软件
+cQQcVoice(CustomQQchatVoice)是一个可以自定义发送的QQ聊天语音的软件    
 注意: 发出的语音只能被安卓端接收
 
 #### 软件架构
