@@ -19,7 +19,6 @@ jobs:
       name: set up Ruby 2.6.5
       with:
         ruby-version: 2.6.5
-        cache-available: ${{ steps.cache.outputs.cache-hit == 'true' }}
     - name: Install fir-cli
       run: gem install fir-cli
     - name: set up JDK 1.8
