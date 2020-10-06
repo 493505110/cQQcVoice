@@ -1,5 +1,5 @@
 # cQQcVoice
-
+[![build](https://github.com/493505110/cQQcVoice/workflows/build/badge.svg)](https://github.com/493505110/cQQcVoice/actions)	
 #### 介绍
 cQQcVoice(customQQchatVoice)是一个可以自定义发送的QQ聊天语音的软件    
 注意: 发出的语音只能被安卓端接收    
