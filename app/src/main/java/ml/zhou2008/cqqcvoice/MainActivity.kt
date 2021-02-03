@@ -17,7 +17,7 @@ import java.util.*
 
 @Suppress("UNREACHABLE_CODE", "DEPRECATION")
 class MainActivity : AppCompatActivity() {
-    private var permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
     private val tencent = "/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/MobileQQ/"
     private var alldone = false
     private var slkpath = ""
