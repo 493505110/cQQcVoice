@@ -18,6 +18,8 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: chmod +x ./gradlew && ./gradlew clean build
+    - name: Rename .apk file
+      run: mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/cQQcVoice.apk
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
       id: sign_app
@@ -36,10 +38,8 @@ jobs:
         DRAFT_RELEASE: "false"
         PRE_RELEASE: "false"
         CHANGELOG_FILE: "CHANGELOG.md"
-        ALLOW_EMPTY_CHANGELOG: "true"
+        ALLOW_EMPTY_CHANGELOG: "false"
         ALLOW_TAG_PREFIX: "true"
       with:
         args: |
-            app/build/outputs/apk/debug/*.apk
-            app/build/outputs/apk/release/*.apk
             ${{steps.sign_app.outputs.signedReleaseFile}}
