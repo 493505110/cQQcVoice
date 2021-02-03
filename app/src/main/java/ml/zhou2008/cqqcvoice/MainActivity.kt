@@ -78,19 +78,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun button2Clicked(){
-        if (alldone) {
-            val f = File(binding.debug1.text.toString())
-            f.copyTo(File(slkpath), true)
-            Toast.makeText(this, "操作执行成功", Toast.LENGTH_SHORT).show()
-            cfgf.writeText(binding.txtQQnumber.text.toString())
-            alldone=false
-            binding.debug1.text = ""
-        }else{
-            Toast.makeText(this, "?", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun button3Clicked(){
         if (binding.txtQQnumber.text.toString() == "") {
             Toast.makeText(this, "你还没有输入QQ号哦", Toast.LENGTH_SHORT).show()
             return
@@ -124,6 +111,19 @@ class MainActivity : AppCompatActivity() {
             }
         }else{
             Toast.makeText(this, "目录是空的", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun button3Clicked(){
+        if (alldone) {
+            val f = File(binding.debug1.text.toString())
+            f.copyTo(File(slkpath), true)
+            Toast.makeText(this, "操作执行成功", Toast.LENGTH_SHORT).show()
+            cfgf.writeText(binding.txtQQnumber.text.toString())
+            alldone=false
+            binding.debug1.text = ""
+        }else{
+            Toast.makeText(this, "?", Toast.LENGTH_SHORT).show()
         }
     }
 
