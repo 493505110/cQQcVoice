@@ -10,64 +10,93 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_main.*
+import ml.zhou2008.cqqcvoice.databinding.ActivityMainBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("UNREACHABLE_CODE")
+@Suppress("UNREACHABLE_CODE", "DEPRECATION")
 class MainActivity : AppCompatActivity() {
     private var permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
     private val tencent = "/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/MobileQQ/"
     private var alldone = false
     private var slkpath = ""
     private val cfgf=File("/storage/emulated/0/cqqcvcfg")
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        binding.button1.setOnClickListener { button1Clicked() }
+        binding.button2.setOnClickListener { button2Clicked() }
+        binding.button3.setOnClickListener { button3Clicked() }
 
         if (cfgf.exists() && cfgf.isFile){
-            txt_QQnumber.setText(cfgf.readText())
+            binding.txtQQnumber.setText(cfgf.readText())
         }
     }
 
-    protected override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK){
             val uri = data?.data
             if (uri != null) {
-                debug_1.text = getPath(uri.path)
+                binding.debug1.text = uri.path?.let { getPath(it) }
             }
         }
     }
 
-    fun onClick(v: View){
-        when(v.id){
-            R.id.button1 -> deleteSlk()
-            R.id.button2 -> button1Clicked()
-            R.id.button3 -> button2Clicked()
+    private fun button1Clicked(){
+        if (!alldone) {
+            if (binding.txtQQnumber.text.toString() == "") {
+                Toast.makeText(this, "你还没有输入QQ号哦", Toast.LENGTH_SHORT).show()
+                return
+            }
+            reqPermissions()
+            val ptt =
+                tencent + binding.txtQQnumber.text.toString() + "/ptt/" + getDate() + "/" + getDay() + "/"
+            val files = File(ptt).listFiles()
+            if (files != null) {
+                if (files.isNotEmpty()) {
+                    for (file in files) {
+                        if (file.isFile && file.name.endsWith(".slk")) {
+                            Toast.makeText(this, "已删除: ${file.name}", Toast.LENGTH_SHORT).show()
+                            file.delete()
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "目录是空的", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "目录是空的", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(this,"?",Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun button2Clicked(){
         if (alldone) {
-            val f = File(debug_1.text.toString())
+            val f = File(binding.debug1.text.toString())
             f.copyTo(File(slkpath), true)
             Toast.makeText(this, "操作执行成功", Toast.LENGTH_SHORT).show()
-            cfgf.writeText(txt_QQnumber.text.toString())
+            cfgf.writeText(binding.txtQQnumber.text.toString())
             alldone=false
-            debug_1.text = ""
+            binding.debug1.text = ""
         }else{
             Toast.makeText(this, "?", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun button1Clicked(){
-        if (txt_QQnumber.text.toString() == "") {
+
+    private fun button3Clicked(){
+        if (binding.txtQQnumber.text.toString() == "") {
             Toast.makeText(this, "你还没有输入QQ号哦", Toast.LENGTH_SHORT).show()
             return
         }
         reqPermissions()
-        val ptt = tencent + txt_QQnumber.text + "/ptt/" + getDate() + "/" + getDay() + "/"
+        val ptt = tencent + binding.txtQQnumber.text + "/ptt/" + getDate() + "/" + getDay() + "/"
         val files = File(ptt).listFiles()
         if (files != null) {
             if (files.isNotEmpty()) {
@@ -97,38 +126,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "目录是空的", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun deleteSlk(){
-        if (!alldone) {
-            if (txt_QQnumber.text.toString() == "") {
-                Toast.makeText(this, "你还没有输入QQ号哦", Toast.LENGTH_SHORT).show()
-                return
-            }
-            reqPermissions()
-            val ptt =
-                tencent + txt_QQnumber.text.toString() + "/ptt/" + getDate() + "/" + getDay() + "/"
-            val files = File(ptt).listFiles()
-            if (files != null) {
-                if (files.isNotEmpty()) {
-                    for (file in files) {
-                        if (file.isFile && file.name.endsWith(".slk")) {
-                            Toast.makeText(this, "已删除: ${file.name}", Toast.LENGTH_SHORT).show()
-                            file.delete()
-                        }
-                    }
-                } else {
-                    Toast.makeText(this, "目录是空的", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, "目录是空的", Toast.LENGTH_SHORT).show()
-            }
-        }else{
-            Toast.makeText(this,"?",Toast.LENGTH_SHORT).show()
-        }
+
+    private fun getPath(uri: String): String{
+        val list = uri.split("/document/primary:")
+        return "/storage/emulated/0/" + list[1]
     }
-    private fun getPath(uri: String?): String?{
-        val list = uri?.split("/document/primary:")
-        return "/storage/emulated/0/" + list?.get(1)
-    }
+
     @SuppressLint("SimpleDateFormat")
     private fun getDate(): String{
         return if (Build.VERSION.SDK_INT >= 24){
@@ -142,6 +145,7 @@ class MainActivity : AppCompatActivity() {
             year+month
         }
     }
+
     @SuppressLint("SimpleDateFormat")
     private fun getDay(): String{
         return if (Build.VERSION.SDK_INT >= 24){
@@ -152,6 +156,7 @@ class MainActivity : AppCompatActivity() {
             day
         }
     }
+
     private fun reqPermissions(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){

@@ -25,13 +25,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="QQ: "/>
+            android:text="@string/qq"/>
 
         <EditText
-            android:id="@+id/txt_QQnumber"
+            android:id="@+id/txtQQnumber"
             android:inputType="number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <Button
@@ -39,27 +41,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="onClick"
-        android:text="删除.slk文件"/>
+        android:text="@string/deleteslk"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="onClick"
-        android:text="选择文件"/>
+        android:text="@string/selectFile"/>
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="onClick"
-        android:text="执行"/>
+        android:text="@string/run"/>
 
     <TextView
-        android:id="@+id/debug_1"
+        android:id="@+id/debug1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

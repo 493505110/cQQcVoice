@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">cQQcVoice</string>
+    <string name="qq">QQ:</string>
+    <string name="selectFile">Select file</string>
+    <string name="run">Run</string>
+    <string name="deleteslk">Delete .slk files</string>
+</resources>
