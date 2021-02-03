@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/qq"/>
+            android:text="@string/QQ"/>
 
         <EditText
             android:id="@+id/txtQQnumber"
@@ -49,14 +49,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/selectFile"/>
+        android:text="@string/selectFile"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/run"/>
+        android:text="@string/run"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/debug1"
